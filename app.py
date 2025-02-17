@@ -8,10 +8,10 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-#app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Recommended
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 db.init_app(app)
 
