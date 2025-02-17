@@ -13,6 +13,7 @@
         <input type="password" id="password" name="password" required><br><br>
 
         <button type="button" onclick="register()">Register</button>
+        <p>Already have an account? <a href="https://your-frontend-domain.com/login.html">Login</a></p>
     </form>
 
     <div id="message"></div>
@@ -23,7 +24,7 @@
             const password = document.getElementById("password").value;
             const messageDiv = document.getElementById("message");
 
-            fetch('/register', { // Your Flask register endpoint
+            fetch('https://todolistalt.onrender.com/register', { // Your Flask register endpoint
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
