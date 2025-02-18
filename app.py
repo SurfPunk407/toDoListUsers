@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, session, abort
 import os
 import logging
-from models import db, User, Task
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
@@ -13,7 +13,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Recommended
 #app.config['CORS_HEADERS'] = 'Content-Type'
 
-db.init_app(app)
+#db.init_app(app)
+db = SQLAlchemy(app)
+
+from models import User, Task
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
