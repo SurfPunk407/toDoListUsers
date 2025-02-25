@@ -21,8 +21,7 @@ from models import User, Task
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-with app.app_context():
-    db.init_app(app)  
+with app.app_context():  
     db.create_all()
 
 @app.route('/register', methods=['POST'])
