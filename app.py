@@ -1,3 +1,4 @@
+# app.py
 from flask import Flask, request, jsonify, session, abort
 import os
 import logging
@@ -5,24 +6,21 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 app = Flask(__name__)
 CORS(app)
-#CORS(app, origins=["http://todolistusers.wuaze.com/register"])
 app.secret_key = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Recommended
-#app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#db.init_app(app)
-db = SQLAlchemy(app)
+db = SQLAlchemy()
+db.init_app(app)
 
 from models import User, Task
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-with app.app_context():  
+with app.app_context():
     db.create_all()
 
 @app.route('/register', methods=['POST'])
@@ -50,7 +48,7 @@ def register():
 
     except Exception as e:
         logging.error(f"Error during registration: {e}")
-        db.session.rollback() #rollback the transaction in case of an error.
+        db.session.rollback()
         return jsonify({'message': 'Internal server error'}), 500
 
 @app.route('/login', methods=['POST'])
@@ -145,7 +143,7 @@ def task(id):
             data = request.get_json()
             if not data:
                 logging.error("Invalid update task data")
-                return jsonify({'message': 'Invalid update data'}),400
+                return jsonify({'message': 'Invalid update data'}), 400
 
             task.task = data.get('task', task.task)
             task.description = data.get('description', task.description)
