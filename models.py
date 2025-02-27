@@ -1,3 +1,4 @@
+# models.py
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -24,20 +25,7 @@ class Task(db.Model):
     task_date = db.Column(db.String(20), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, task, description, priority, status, task_date, user_id):  # __init__ inside Task class
+    def __init__(self, task, description, priority, status, task_date, user_id):
         self.task = task
         self.description = description
         self.priority = priority
-        self.status = status
-        self.task_date = task_date
-        self.user_id = user_id
-
-    def to_dictionary(self):
-        return {
-            "id": self.id,
-            "task": self.task,
-            "description": self.description,
-            "priority": self.priority,
-            "status": self.status,
-            "task_date": self.task_date
-        }
