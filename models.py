@@ -9,7 +9,7 @@ from extensions import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password_hash = db.Column(db.String(228))
+    password_hash = db.Column(db.String(300))
     tasks = db.relationship('Task', backref='user', lazy=True)
 
     def set_password(self, password):
