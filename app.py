@@ -16,18 +16,23 @@ db.init_app(app) # Initialize db with app
 
 from models import User, Task
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# need logging?
+#logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 with app.app_context():
     db.create_all()
+
+
+
+
+
 
 @app.route('/register', methods=['POST'])
 def register():
     try:
         data = request.get_json()
         if not data or 'username' not in data or 'password' not in data:
-            logging.error("Invalid request data for registration")
+            logging.error("Invalid request")
             return jsonify({'message': 'Invalid request data'}), 400
 
         username = data['username']
@@ -55,7 +60,7 @@ def login():
     try:
         data = request.get_json()
         if not data or 'username' not in data or 'password' not in data:
-            logging.error("Invalid request data for login")
+            logging.error("Invalid login")
             return jsonify({'message': 'Invalid request data'}), 400
 
         username = data['username']
@@ -68,7 +73,7 @@ def login():
             logging.info(f"User '{username}' logged in successfully")
             return jsonify({'message': 'Logged in successfully'}), 200
         else:
-            logging.warning(f"Invalid login attempt for user '{username}'")
+            logging.warning(f"Invalid login '{username}'")
             return jsonify({'message': 'Invalid username or password'}), 401
     except Exception as e:
         logging.error(f"Error during login: {e}")
@@ -78,7 +83,13 @@ def login():
 def logout():
     session.pop('username', None)
     logging.info("User logged out")
-    return jsonify({'message': 'Logged out successfully'}), 200
+    return jsonify({'message': 'Successfully logged out'}), 200
+
+
+
+
+
+
 
 @app.route('/tasks', methods=['GET', 'POST'])
 def tasks():
@@ -117,14 +128,14 @@ def tasks():
             return jsonify(new_task.to_dictionary()), 201
 
     except Exception as e:
-        logging.error(f"Error in tasks route: {e}")
+        logging.error(f"Error getting task: {e}")
         db.session.rollback()
         return jsonify({'message': 'Internal server error'}), 500
 
 @app.route('/tasks/<int:id>', methods=['PUT', 'DELETE'])
 def task(id):
     if 'username' not in session:
-        logging.warning("Unauthorized access to task modification")
+        logging.warning("Unauthorized")
         return jsonify({'message': 'Unauthorized'}), 401
 
     user = User.query.filter_by(username=session['username']).first()
@@ -165,4 +176,4 @@ def task(id):
         return jsonify({'message': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
