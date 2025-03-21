@@ -17,7 +17,7 @@ db.init_app(app) # Initialize db with app
 from models import User, Task
 
 # need logging?
-#logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 with app.app_context():
     db.create_all()
