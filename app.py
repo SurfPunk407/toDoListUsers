@@ -6,7 +6,7 @@ from extensions import db  # Import db from extensions.py
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://todolistusers.wuaze.com"}})
 
 
 # Set a secret key for session management (using the one you generated)
