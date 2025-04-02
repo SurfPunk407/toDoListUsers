@@ -33,33 +33,6 @@ with app.app_context():
 
 
 
-# app.py
-from flask import Flask, request, jsonify, session, abort
-import os
-import logging
-from flask_cors import CORS
-from extensions import db  # Import db from extensions.py
-from werkzeug.security import generate_password_hash, check_password_hash
-
-app = Flask(__name__)
-CORS(app)
-app.secret_key = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app) # Initialize db with app
-
-from models import User, Task
-
-# need logging?
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-with app.app_context():
-    db.create_all()
-
-
-
-
 
 
 @app.route('/register', methods=['POST'])
