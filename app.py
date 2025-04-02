@@ -31,74 +31,6 @@ with app.app_context():
     db.create_all()
 
 
-
-
-
-
-@app.route('/register', methods=['POST'])
-def register():
-    try:
-        data = request.get_json()
-        if not data or 'username' not in data or 'password' not in data:
-            logging.error("Invalid request")
-            return jsonify({'message': 'Invalid request data'}), 400
-
-        username = data['username']
-        password = data['password']
-
-        if User.query.filter_by(username=username).first():
-            logging.warning(f"Username '{username}' already exists")
-            return jsonify({'message': 'Username already exists'}), 400
-
-        new_user = User(username=username)
-        new_user.set_password(password)
-        db.session.add(new_user)
-        db.session.commit()
-
-        logging.info(f"User '{username}' registered successfully")
-        return jsonify({'message': 'User registered successfully'}), 201
-
-    except Exception as e:
-        logging.error(f"Error during registration: {e}")
-        db.session.rollback()
-        return jsonify({'message': 'Internal server error'}), 500
-
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        data = request.get_json()
-        if not data or 'username' not in data or 'password' not in data:
-            logging.error("Invalid login")
-            return jsonify({'message': 'Invalid request data'}), 400
-
-        username = data['username']
-        password = data['password']
-
-        user = User.query.filter_by(username=username).first()
-
-        if user and user.check_password(password):
-            session['username'] = username
-            logging.info(f"User '{username}' logged in successfully")
-            return jsonify({'message': 'Logged in successfully'}), 200
-        else:
-            logging.warning(f"Invalid login '{username}'")
-            return jsonify({'message': 'Invalid username or password'}), 401
-    except Exception as e:
-        logging.error(f"Error during login: {e}")
-        return jsonify({'message': 'Internal server error'}), 500
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    logging.info("User logged out")
-    return jsonify({'message': 'Successfully logged out'}), 200
-
-
-
-
-
-
-
 @app.route('/tasks', methods=['GET', 'POST'])
 def tasks():
     if 'username' not in session:
@@ -256,6 +188,12 @@ def login():
     except Exception as e:
         logging.error(f"Error during login: {e}")
         return jsonify({'message': 'Internal server error'}), 500
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    logging.info("User logged out")
+    return jsonify({'message': 'Successfully logged out'}), 200
 
 # Run the app with debug enabled
 if __name__ == '__main__':
