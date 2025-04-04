@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 # CORS Configuration
 # Allow requests from the specific frontend domain
-CORS(app, resources={r"/login": {"origins": "https://todolistusers.wuaze.com"}})  # Allow the frontend domain  # Allow the frontend domain
+CORS(app, supports_credentials=True))  # Allow the frontend domain  # Allow the frontend domain
 
 # Set a secret key for session management (using the one you generated)
 app.secret_key = os.environ.get('SECRET_KEY', 'b07d3858c42f80893b1176555d8cb7b1b96c03949018bc724eca0afc9ce7456c')  # Replace with your actual secret key in production
