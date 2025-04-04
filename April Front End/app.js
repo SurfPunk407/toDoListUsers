@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function fetchTasks() {
         fetch('https://todolistuser.onrender.com/tasks')
+            {
+        credentials: 'include' // Add this line
+    })
             .then(response => response.json())
             .then(tasks => {
                 tasks.forEach(task => {
@@ -170,6 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
             incompleteButton.style.display = 'none';
 
             fetch(`https://todolistuser.onrender.com/tasks/${task.id}`, {
+                {
+        credentials: 'include' // Add this line
+    })
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -202,6 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Update the task's priority on the server
                 fetch(`https://todolistuser.onrender.com/tasks/${task.id}`, {
+                    {
+        credentials: 'include' // Add this line
+    })
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -314,6 +323,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         fetch('https://todolistuser.onrender.com/updateOrder', {
+            {
+        credentials: 'include' // Add this line
+    })
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
