@@ -9,11 +9,11 @@ app = Flask(__name__)
 # CORS Configuration
 # Allow requests from the specific frontend domain
 CORS(app, resources={
-    r"/*": {"origins": "https://todolistusers.wuaze.com", "supports_credentials": True}
-})  # Allow the frontend domain  # Allow the frontend domain
+    r"/*": {"origins": "https://todolistapp.infy.uk"}
+})  # Allow front end comm
 
-# Set a secret key for session management (using the one you generated)
-app.secret_key = os.environ.get('SECRET_KEY', 'b07d3858c42f80893b1176555d8cb7b1b96c03949018bc724eca0afc9ce7456c')  # Replace with your actual secret key in production
+# Set a secret key for session management (generated)
+app.secret_key = os.environ.get('SECRET_KEY')  
 
 # PostgreSQL URL for your Render database
 db_url = os.environ.get('DATABASE_URL', 'postgresql://backend_db_flask_user_vmia_user:pVpy47XSEhOaro9AinYSzphKMumM8Aug@dpg-cve54nan91rc73bedsu0-a.oregon-postgres.render.com/backend_db_flask_user_vmia')
