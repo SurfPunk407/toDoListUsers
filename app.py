@@ -9,12 +9,12 @@ app = Flask(__name__)
 # CORS Configuration
 # Allow requests from the specific frontend domain
 CORS(app, resources={
-    r"/*": { r"/login": {"origins": "https://todolistusers.wuaze.com", "supports_credentials": True},
+     r"/login": {"origins": "https://todolistusers.wuaze.com", "methods": ["POST", "OPTIONS"], "allow_headers": ["Content-Type"], "supports_credentials": True},
     r"/tasks": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
     r"/tasks/*": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
     r"/updateOrder": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
     r"/register": {"origins": "https://todolistusers.wuaze.com", "supports_credentials": True},
-    r"/test_db": {"origins": "*", "supports_credentials": True} 
+    r"/test_db": {"origins": "*", "supports_credentials": True} # Consider specific origin for test in production
 }) # Allow front end comm
 
 # Set a secret key for session management (generated)
