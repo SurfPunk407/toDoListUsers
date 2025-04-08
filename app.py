@@ -8,20 +8,15 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 # CORS Configuration
 # Allow requests from the specific frontend domain
-CORS(app, resources={
-     r"/login": {"origins": "https://todolistusers.wuaze.com", "methods": ["POST", "OPTIONS"], "allow_headers": ["Content-Type"], "supports_credentials": True},
-    r"/tasks": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
-    r"/tasks/*": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
-    r"/updateOrder": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True},
-    r"/register": {"origins": "https://todolistusers.wuaze.com", "supports_credentials": True},
-    r"/test_db": {"origins": "*", "supports_credentials": True} # Consider specific origin for test in production
-}) # Allow front end comm
+
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "https://todolistusers.wuaze.com"}})
+
 
 # Set a secret key for session management (generated)
 app.secret_key = os.environ.get('SECRET_KEY')  
 
 # PostgreSQL URL for your Render database
-db_url = os.environ.get('DATABASE_URL', 'postgresql://backend_db_flask_user_vmia_user:pVpy47XSEhOaro9AinYSzphKMumM8Aug@dpg-cve54nan91rc73bedsu0-a.oregon-postgres.render.com/backend_db_flask_user_vmia')
+db_url = os.environ.get('DATABASE_URL')
 print("Database URL:", db_url)  # This will print the database URL to verify it's correct
 
 # Setting up the database URI (PostgreSQL in production, SQLite for local testing)
