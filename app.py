@@ -9,8 +9,8 @@ app = Flask(__name__)
 # CORS Configuration
 # Allow requests from the specific frontend domain
 CORS(app, resources={
-    r"/*": {"origins": "https://todolistapp.infy.uk"}
-})  # Allow front end comm
+    r"/*": {"origins": "https://todolistapp.infy.uk", "supports_credentials": True}
+}) # Allow front end comm
 
 # Set a secret key for session management (generated)
 app.secret_key = os.environ.get('SECRET_KEY')  
